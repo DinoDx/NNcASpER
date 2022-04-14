@@ -2,7 +2,8 @@ import tensorflow
 from tensorflow import keras as k
 import pygad
 import pygad.kerasga as kga
-from DataPreprocessing import DataPreprocessing
+
+from DataPreprocessing import dataPreprocessing
 
 # model creation
 input_layer = k.layers.Input(19)
@@ -18,9 +19,7 @@ model.add(output_layer)
 num_individuals = 10
 ga = kga.KerasGA(model = model, num_solutions=num_individuals)
 
-d = DataPreprocessing()
-data_inputs = d.inputData(num_individuals)
-data_outputs = d.outputData(num_individuals)
+data_inputs, data_outputs = dataPreprocessing(num_individuals)
 
 def fitness_func(solution, sol_idx):
     global data_inputs, data_outputs, ga, model
