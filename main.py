@@ -1,4 +1,6 @@
-import tensorflow
+import os
+os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
+import tensorflow as tf
 from tensorflow import keras as k
 import pygad
 import pygad.kerasga as kga
@@ -32,6 +34,8 @@ def fitness_func(solution, sol_idx):
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(data_outputs, predictions).numpy()
+
+
 
     return solution_fitness
 
