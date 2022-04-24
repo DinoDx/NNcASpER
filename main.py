@@ -71,11 +71,11 @@ predictions = model.predict(data_inputs)
 # print("Predictions : \n", predictions)
 
 # Calculate the categorical crossentropy for the trained model.
-cce = tensorflow.keras.losses.CategoricalCrossentropy()
+cce = tf.keras.losses.CategoricalCrossentropy()
 print("Categorical Crossentropy : ", cce(data_outputs, predictions).numpy())
 
 # Calculate the classification accuracy for the trained model.
-ca = tensorflow.keras.metrics.CategoricalAccuracy()
+ca = tf.keras.metrics.CategoricalAccuracy()
 ca.update_state(data_outputs, predictions)
 accuracy = ca.result().numpy()
 print("Accuracy : ", accuracy)
