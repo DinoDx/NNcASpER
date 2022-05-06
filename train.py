@@ -1,13 +1,14 @@
+# For the use of the GPU with tensorflow
 import os
 os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
+
 import tensorflow as tf
 from tensorflow import keras as k
 import pygad
 import pygad.kerasga as kga
+from dataPreprocessing import dataPreprocessing
 
-from DataPreprocessing import dataPreprocessing
-
-# model creation
+# creation of the model
 input_layer = k.layers.Input(19)
 dense_layer = k.layers.Dense(11, activation="relu")
 output_layer = k.layers.Dense(5, activation="softmax")
@@ -18,24 +19,19 @@ model.add(dense_layer)
 model.add(output_layer)
 
 # ga setup
-num_individuals = 10
-ga = kga.KerasGA(model = model, num_solutions=num_individuals)
-
+num_individuals = 40000
 data_inputs, data_outputs = dataPreprocessing(num_individuals)
 
+ga = kga.KerasGA(model = model, num_solutions = num_individuals)
+
 def fitness_func(solution, sol_idx):
-    global data_inputs, data_outputs, ga, model
-
     model_weights_matrix = kga.model_weights_as_matrix(model=model, weights_vector=solution)
-
     model.set_weights(weights=model_weights_matrix)
 
     predictions = model.predict(data_inputs)
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(data_outputs, predictions).numpy()
-
-
 
     return solution_fitness
 
@@ -45,7 +41,7 @@ def callback_generation(ga_instance):
 
 
 num_generations = 100
-num_parents_mating = 5
+num_parents_mating = 20
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,
