@@ -1,10 +1,14 @@
+import math
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 
 def dataPreprocessing(n):
 
-    data = pd.read_csv("complete_Dataset.csv", sep=",")
+    data = pd.read_csv("complete_dataset.csv", sep=",")
+
+    #Data Cleaning
+    data = data.dropna()
 
     # Feature Selection
     todrop_input_data = ["ComponentName", "nameProject", "M_TextualCohesion","M_TextualEntropy","ComplexClass","LargeClass","LazyClass","RefusedBequest","SpaghettiCode"]
@@ -13,15 +17,11 @@ def dataPreprocessing(n):
 
     input_data = np.array(data.drop(todrop_input_data, axis=1))[:n]
     output_data = np.array(data.drop(todrop_output_data, axis=1))[:n]
-
+                
     # Freature Scaling
     scaler = preprocessing.MinMaxScaler(feature_range=(0,1))
     
     scaled_input_data = scaler.fit_transform(input_data)
-    scaled_output_data = scaler.fit_transform(output_data)
+    scaled_output_data = scaler.fit_transform(output_data) 
 
     return scaled_input_data, scaled_output_data
-
-    
-
-
