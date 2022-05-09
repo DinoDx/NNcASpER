@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 
-def dataPreprocessing(n):
+def dataPreprocessing(f, t):
 
     data = pd.read_csv("complete_dataset.csv", sep=",")
 
@@ -15,8 +15,8 @@ def dataPreprocessing(n):
     todrop_output_data = ["ComponentName","nameProject","M_CBO","M_CYCLO","M_DIT","M_ELOC","M_FanIn","M_FanIn_1","M_LCOM","M_LOC",
         "M_LOCNAMM","M_NOA","M_NOC","M_NOM","M_NOMNAMM","M_NOPA","M_PMMM","M_PRB","M_WLOCNAMM","M_WMC","M_WMCNAMM","M_TextualCohesion","M_TextualEntropy"]
 
-    input_data = np.array(data.drop(todrop_input_data, axis=1))[:n]
-    output_data = np.array(data.drop(todrop_output_data, axis=1))[:n]
+    input_data = np.array(data.drop(todrop_input_data, axis=1))[f:t]
+    output_data = np.array(data.drop(todrop_output_data, axis=1))[f:t]
                 
     # Freature Scaling
     scaler = preprocessing.MinMaxScaler(feature_range=(0,1))

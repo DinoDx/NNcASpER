@@ -21,7 +21,7 @@ model.add(output_layer)
 # ga setup
 # first implementation with 70% train 30% test
 train_size = 58000
-x_data, y_data = dataPreprocessing(train_size)
+x_train, y_train = dataPreprocessing(0, train_size)
 
 ga = kga.KerasGA(model = model, num_solutions = 20)
 
