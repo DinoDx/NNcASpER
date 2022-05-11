@@ -1,3 +1,7 @@
+# For the use of the GPU with tensorflow
+import os
+os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
+
 from tensorflow import keras
 from dataPreprocessing import dataPreprocessing
 
@@ -19,6 +23,3 @@ acc = keras.metrics.BinaryAccuracy(threshold = 0.5)
 acc.update_state(y_test, predictions)
 accuracy = acc.result().numpy()
 print("Accuracy :", accuracy)
-
-
-
