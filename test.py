@@ -13,10 +13,9 @@ model = keras.models.model_from_json(model_json)
 model.load_weights("model.h5")
 
 # Prepare test set 30%
-x_test, y_test = dataPreprocessing(5800, None)
+x_test, y_test = dataPreprocessing(58000, None)
 
 predictions = (model.predict(x_test)).round()
-print(predictions, y_test)
 
 acc = keras.metrics.BinaryAccuracy(threshold = 0.5)
 acc.update_state(y_test, predictions)
