@@ -16,7 +16,6 @@ model.load_weights("model.h5")
 x_test, y_test = dataPreprocessing(58000, None)
 
 predictions = (model.predict(x_test)).round()
-print(predictions, y_test)
 
 acc = keras.metrics.BinaryAccuracy(threshold = 0.5)
 acc.update_state(y_test, predictions)
