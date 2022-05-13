@@ -95,7 +95,7 @@ recall = rec.result().numpy()
 
 # Save model as json
 model_json = model.to_json()
-with open("model.json", "w") as json_file:
+with open("model/model.json", "w") as json_file:
     json_file.write(model_json)
 # Save weights as HDF5
-model.save_weights("model.h5")
+model.save_weights("model/model.h5")

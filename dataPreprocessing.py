@@ -7,7 +7,7 @@ from matplotlib import pyplot
 
 def dataPreprocessing(f, t):
 
-    data = pd.read_csv("complete_dataset.csv", sep=",")
+    data = pd.read_csv("data/complete_dataset.csv", sep=",")
 
     #Data Cleaning
     data = data.dropna()

@@ -7,11 +7,11 @@ from tensorflow import keras
 from dataPreprocessing import dataPreprocessing
 
 #Load model and weights
-with open("model.json", "r") as json_file:
+with open("model/model.json", "r") as json_file:
     model_json = json_file.read()
 
 model = keras.models.model_from_json(model_json)
-model.load_weights("model.h5")
+model.load_weights("model/model.h5")
 
 # Prepare test set 30%
 x_test, y_test = dataPreprocessing(58000, None)
