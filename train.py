@@ -31,9 +31,8 @@ def fitness_func(solution, sol_idx):
     model.set_weights(weights=model_weights_matrix)
     predictions = model.predict(x_train)
 
-    bce = k.losses.BinaryCrossentropy()
-    
-    solution_fitness = 1.0 / bce(y_train, predictions).numpy()
+    cce = k.losses.CategoricalCrossentropy()
+    solution_fitness = 1.0 / cce(y_train, predictions).numpy()
 
     return solution_fitness
 
@@ -53,10 +52,12 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         fitness_func=fitness_func,
                         on_generation=callback_generation,
                         parent_selection_type="rws",
-                        crossover_type="single_point",
-                        mutation_type="swap",
-                        stop_criteria="saturate_7",
-                        save_best_solutions=True)
+                        crossover_type="uniform",
+                        crossover_probability=0.5,
+                        mutation_type="scramble",
+                        mutation_probability=0.1,
+                        save_best_solutions=True,
+                        stop_criteria="saturate_7")
 
 ga_instance.run()
 
@@ -75,14 +76,22 @@ predictions = model.predict(x_train)
 #print("Predictions : \n", predictions)
 
 # Calculate the categorical crossentropy for the trained model.
-bce = k.losses.BinaryCrossentropy()
-print("Binary Crossentropy : ", bce(y_train, predictions).numpy())
+cce = k.losses.CategoricalCrossentropy()
+print("Categorical Crossentropy : ", cce(y_train, predictions).numpy())
 
 # Calculate the classification accuracy for the trained model.
 acc = tf.keras.metrics.BinaryAccuracy(threshold = 0.5)
 acc.update_state(y_train, predictions)
 accuracy = acc.result().numpy()
 print("Accuracy : ", accuracy)
+
+pre = tf.keras.metrics.Precision()
+pre.update_state(y_train, predictions)
+precision = pre.result().numpy()
+
+rec = tf.keras.metrics.Recall()
+rec.update_state(y_train, predictions)
+recall = rec.result().numpy()
 
 # Save model as json
 model_json = model.to_json()
