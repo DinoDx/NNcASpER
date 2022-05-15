@@ -25,6 +25,7 @@ def dataPreprocessing(f, t):
     x_data = scaler.fit_transform(x_data)
 
     # Data Balancing
+    '''''
     y_labeled = []
 
     for target in y_data:
@@ -44,7 +45,7 @@ def dataPreprocessing(f, t):
     le = preprocessing.LabelEncoder()
     y_labeled  = le.fit_transform(y_labeled )
 
-    '''''
+
     # Distribution before balancing with SMOTE
     counter = Counter(labeled_y)
     for k,v in counter.items():
@@ -53,12 +54,11 @@ def dataPreprocessing(f, t):
 
     pyplot.bar(counter.keys(), counter.values())
     pyplot.show()
-    '''''
-
-    x_res, y_res = imblearn.over_sampling.SMOTE().fit_resample(x_data, y_labeled )
+    '''''   
 
     '''''
-    # Distribution after balancing with SMOTE
+    # Distribution after balancing with SMOTE    
+    x_res, y_res = imblearn.over_sampling.SMOTE().fit_resample(x_data, y_labeled)
     counter = Counter(y_res)
     for k,v in counter.items():
         per = v / len(y_data) * 100
@@ -67,5 +67,7 @@ def dataPreprocessing(f, t):
     pyplot.scatter(counter.keys(), counter.values())
     pyplot.show()
     '''''
+
+    x_res, y_res = imblearn.over_sampling.SMOTE().fit_resample(x_data, y_data)
 
     return x_res, y_res

@@ -1,6 +1,5 @@
 # For the use of the GPU with tensorflow
 import os
-from pandas import Categorical
 os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
 from tensorflow import keras

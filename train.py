@@ -11,7 +11,7 @@ from dataPreprocessing import dataPreprocessing
 # creation of the model
 input_layer = k.layers.Input(19)
 dense_layer = k.layers.Dense(12, activation="relu")
-output_layer = k.layers.Dense(5, activation="sigmoid")
+output_layer = k.layers.Dense(5, activation="softmax")
 
 model = k.Sequential()
 model.add(input_layer)
@@ -23,6 +23,7 @@ model.add(output_layer)
 train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
 
+print(y_train.shape)
 ga = kga.KerasGA(model = model, num_solutions = 100)
 
 # fitness function 
@@ -30,6 +31,7 @@ def fitness_func(solution, sol_idx):
     model_weights_matrix = kga.model_weights_as_matrix(model=model, weights_vector=solution)
     model.set_weights(weights=model_weights_matrix)
     predictions = model.predict(x_train)
+    print(predictions)
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(y_train, predictions).numpy()
@@ -56,8 +58,7 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         crossover_probability=0.5,
                         mutation_type="scramble",
                         mutation_probability=0.1,
-                        save_best_solutions=True,
-                        stop_criteria="saturate_7")
+                        save_best_solutions=True)
 
 ga_instance.run()
 
@@ -80,18 +81,10 @@ cce = k.losses.CategoricalCrossentropy()
 print("Categorical Crossentropy : ", cce(y_train, predictions).numpy())
 
 # Calculate the classification accuracy for the trained model.
-acc = tf.keras.metrics.BinaryAccuracy(threshold = 0.5)
+acc = tf.keras.metrics.Accuracy()
 acc.update_state(y_train, predictions)
 accuracy = acc.result().numpy()
 print("Accuracy : ", accuracy)
-
-pre = tf.keras.metrics.Precision()
-pre.update_state(y_train, predictions)
-precision = pre.result().numpy()
-
-rec = tf.keras.metrics.Recall()
-rec.update_state(y_train, predictions)
-recall = rec.result().numpy()
 
 # Save model as json
 model_json = model.to_json()
