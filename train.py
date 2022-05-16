@@ -1,5 +1,6 @@
 # For the use of the GPU with tensorflow
 import os
+import time
 os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
 import tensorflow as tf
@@ -23,15 +24,17 @@ model.add(output_layer)
 train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
 
-print(y_train.shape)
-ga = kga.KerasGA(model = model, num_solutions = 100)
+start_time = time.time()
+
+ga = kga.KerasGA(model = model, num_solutions = 10)
+
 
 # fitness function 
 def fitness_func(solution, sol_idx):
     model_weights_matrix = kga.model_weights_as_matrix(model=model, weights_vector=solution)
     model.set_weights(weights=model_weights_matrix)
     predictions = model.predict(x_train)
-    print(predictions)
+
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(y_train, predictions).numpy()
@@ -42,10 +45,10 @@ def fitness_func(solution, sol_idx):
 def callback_generation(ga_instance):
     print("Generation = {generation}".format(generation=ga_instance.generations_completed))
     print("Best Fitness   = {fitness}".format(fitness=ga_instance.best_solution()[1]))
+    print("Started %s seconds ago" % (time.time() - start_time))
 
-
-num_generations = 100
-num_parents_mating = 10
+num_generations = 10
+num_parents_mating = 2
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,
