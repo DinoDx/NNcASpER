@@ -39,4 +39,7 @@ print("Accuracy : ", accuracy)
 print("Categorical Crossentropy : ", entropy)
 print("Precision : ", precision)
 print("Recall : ", recall)
+<<<<<<< HEAD
 print("F-Measure : ", fmeasure) 
+=======
+>>>>>>> 021a282c4da099cf15cf87d8523f5159498f7b50

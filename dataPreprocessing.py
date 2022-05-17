@@ -68,6 +68,10 @@ def dataPreprocessing(f, t):
     pyplot.show()
     '''''
 
+<<<<<<< HEAD
     #x_data, y_data = imblearn.over_sampling.SMOTE().fit_resample(x_data, y_data)
+=======
+    x_data, y_data = imblearn.over_sampling.SMOTE().fit_resample(x_data, y_data)
+>>>>>>> 021a282c4da099cf15cf87d8523f5159498f7b50
 
     return x_data, y_data
