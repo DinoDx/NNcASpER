@@ -23,7 +23,6 @@ model.add(output_layer)
 train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
 
-print(y_train.shape)
 ga = kga.KerasGA(model = model, num_solutions = 100)
 
 # fitness function 
@@ -31,7 +30,6 @@ def fitness_func(solution, sol_idx):
     model_weights_matrix = kga.model_weights_as_matrix(model=model, weights_vector=solution)
     model.set_weights(weights=model_weights_matrix)
     predictions = model.predict(x_train)
-    print(predictions)
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(y_train, predictions).numpy()

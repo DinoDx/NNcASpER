@@ -33,7 +33,10 @@ rec = keras.metrics.Recall()
 rec.update_state(y_test, predictions)
 recall = rec.result().numpy()
 
+fmeasure = 2*((precision*recall)/(precision+recall))
+
 print("Accuracy : ", accuracy)
 print("Categorical Crossentropy : ", entropy)
 print("Precision : ", precision)
 print("Recall : ", recall)
+print("F-Measure : ", fmeasure) 
