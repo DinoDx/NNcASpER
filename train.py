@@ -2,7 +2,6 @@
 #import os
 #os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
-import time
 import imblearn
 import tensorflow as tf
 from tensorflow import keras as k
@@ -26,7 +25,7 @@ train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
 x_train, y_train = imblearn.over_sampling.SMOTE().fit_resample(x_train, y_train)
 
-ga = kga.KerasGA(model = model, num_solutions = 20)
+ga = kga.KerasGA(model = model, num_solutions = 100)
 
 # fitness function 
 def fitness_func(solution, sol_idx):
@@ -44,8 +43,8 @@ def callback_generation(ga_instance):
     print("Generation = {generation}".format(generation=ga_instance.generations_completed))
     print("Best Fitness   = {fitness}".format(fitness=ga_instance.best_solution()[1]))
 
-num_generations = 100
-num_parents_mating = 20
+num_generations = 20
+num_parents_mating = 100
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,

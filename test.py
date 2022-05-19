@@ -42,8 +42,8 @@ with mlflow.start_run(experiment_id=mlflow_experiment_id):
     print("Recall : ", recall)
     print("F-Measure : ", fmeasure) 
 
-    mlflow.log_param("n solutions", 20)
-    mlflow.log_param("n generations", 100)
+    mlflow.log_param("n solutions", 100)
+    mlflow.log_param("n generations", 20)
     mlflow.log_param("n elites", 2)
     mlflow.log_param("crossover type", "single point")
     mlflow.log_param("crossover prob", 0.8)
