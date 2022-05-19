@@ -1,7 +1,6 @@
 # For the use of the GPU with tensorflow
-import os
-import time
-os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
+#import os
+#os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
 import tensorflow as tf
 from tensorflow import keras as k
@@ -41,10 +40,9 @@ def fitness_func(solution, sol_idx):
 def callback_generation(ga_instance):
     print("Generation = {generation}".format(generation=ga_instance.generations_completed))
     print("Best Fitness   = {fitness}".format(fitness=ga_instance.best_solution()[1]))
-    print("Started %s seconds ago" % (time.time() - start_time))
 
-num_generations = 10
-num_parents_mating = 2
+num_generations = 100
+num_parents_mating = 100
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,
@@ -53,9 +51,10 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         fitness_func=fitness_func,
                         on_generation=callback_generation,
                         parent_selection_type="rws",
+                        keep_parents=5,
                         crossover_type="uniform",
-                        crossover_probability=0.5,
-                        mutation_type="scramble",
+                        crossover_probability=0.8,
+                        mutation_type="swap",
                         mutation_probability=0.1,
                         save_best_solutions=True)
 
