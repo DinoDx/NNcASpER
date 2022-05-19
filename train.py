@@ -2,6 +2,8 @@
 #import os
 #os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
+import time
+import imblearn
 import tensorflow as tf
 from tensorflow import keras as k
 import pygad
@@ -22,8 +24,9 @@ model.add(output_layer)
 # Prepare train set 70%
 train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
+x_train, y_train = imblearn.over_sampling.SMOTE().fit_resample(x_train, y_train)
 
-ga = kga.KerasGA(model = model, num_solutions = 100)
+ga = kga.KerasGA(model = model, num_solutions = 20)
 
 # fitness function 
 def fitness_func(solution, sol_idx):
@@ -33,7 +36,7 @@ def fitness_func(solution, sol_idx):
 
     cce = k.losses.CategoricalCrossentropy()
     solution_fitness = 1.0 / cce(y_train, predictions).numpy()
-
+    
     return solution_fitness
 
 # callback function
@@ -42,7 +45,7 @@ def callback_generation(ga_instance):
     print("Best Fitness   = {fitness}".format(fitness=ga_instance.best_solution()[1]))
 
 num_generations = 100
-num_parents_mating = 100
+num_parents_mating = 20
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,
@@ -51,8 +54,8 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         fitness_func=fitness_func,
                         on_generation=callback_generation,
                         parent_selection_type="rws",
-                        keep_parents=5,
-                        crossover_type="uniform",
+                        keep_parents=2,
+                        crossover_type="single_point",
                         crossover_probability=0.8,
                         mutation_type="swap",
                         mutation_probability=0.1,
@@ -77,12 +80,6 @@ predictions = model.predict(x_train)
 # Calculate the categorical crossentropy for the trained model.
 cce = k.losses.CategoricalCrossentropy()
 print("Categorical Crossentropy : ", cce(y_train, predictions).numpy())
-
-# Calculate the classification accuracy for the trained model.
-acc = tf.keras.metrics.Accuracy()
-acc.update_state(y_train, predictions)
-accuracy = acc.result().numpy()
-print("Accuracy : ", accuracy)
 
 # Save model as json
 model_json = model.to_json()

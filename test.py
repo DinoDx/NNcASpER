@@ -1,9 +1,13 @@
 # For the use of the GPU with tensorflow
-import os
-os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
+#import os
+#os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
 from tensorflow import keras
 from dataPreprocessing import dataPreprocessing
+import mlflow
+
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow_experiment_id = 0
 
 #Load model and weights
 with open("model/model.json", "r") as json_file:
@@ -15,28 +19,38 @@ model.load_weights("model/model.h5")
 # Prepare test set 30%
 x_test, y_test = dataPreprocessing(58000, None)
 
-predictions = (model.predict(x_test))
+with mlflow.start_run(experiment_id=mlflow_experiment_id):
 
-acc = keras.metrics.CategoricalAccuracy()
-acc.update_state(y_test, predictions)
-accuracy = acc.result().numpy()
+    predictions = (model.predict(x_test))
 
-cce = keras.metrics.CategoricalCrossentropy()
-cce.update_state(y_test, predictions)
-entropy = cce.result().numpy()
+    acc = keras.metrics.CategoricalAccuracy()
+    acc.update_state(y_test, predictions)
+    accuracy = acc.result().numpy()
 
-pre = keras.metrics.Precision()
-pre.update_state(y_test, predictions)
-precision = pre.result().numpy()
+    pre = keras.metrics.Precision()
+    pre.update_state(y_test, predictions)
+    precision = pre.result().numpy()
 
-rec = keras.metrics.Recall()
-rec.update_state(y_test, predictions)
-recall = rec.result().numpy()
+    rec = keras.metrics.Recall()
+    rec.update_state(y_test, predictions)
+    recall = rec.result().numpy()
 
-fmeasure = 2*((precision*recall)/(precision+recall))
+    fmeasure = 2*((precision*recall)/(precision+recall))
 
-print("Accuracy : ", accuracy)
-print("Categorical Crossentropy : ", entropy)
-print("Precision : ", precision)
-print("Recall : ", recall)
-print("F-Measure : ", fmeasure) 
+    print("Accuracy : ", accuracy)
+    print("Precision : ", precision)
+    print("Recall : ", recall)
+    print("F-Measure : ", fmeasure) 
+
+    mlflow.log_param("n solutions", 20)
+    mlflow.log_param("n generations", 100)
+    mlflow.log_param("n elites", 2)
+    mlflow.log_param("crossover type", "single point")
+    mlflow.log_param("crossover prob", 0.8)
+    mlflow.log_param("mutation type", "swap")
+    mlflow.log_param("mutation prob", 0.1)
+
+    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("precision", precision)
+    mlflow.log_metric("recall", recall)
+    mlflow.log_metric("f-measure", fmeasure)

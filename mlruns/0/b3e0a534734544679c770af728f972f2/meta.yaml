@@ -1,0 +1,15 @@
+artifact_uri: ./mlruns/0/b3e0a534734544679c770af728f972f2/artifacts
+end_time: 1652980398747
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: b3e0a534734544679c770af728f972f2
+run_uuid: b3e0a534734544679c770af728f972f2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1652980396323
+status: 3
+tags: []
+user_id: Dino
