@@ -25,7 +25,7 @@ train_size = 58000
 x_train, y_train = dataPreprocessing(None, train_size)
 x_train, y_train = imblearn.over_sampling.SMOTE().fit_resample(x_train, y_train)
 
-ga = kga.KerasGA(model = model, num_solutions = 100)
+ga = kga.KerasGA(model = model, num_solutions = 20)
 
 # fitness function 
 def fitness_func(solution, sol_idx):
@@ -43,8 +43,8 @@ def callback_generation(ga_instance):
     print("Generation = {generation}".format(generation=ga_instance.generations_completed))
     print("Best Fitness   = {fitness}".format(fitness=ga_instance.best_solution()[1]))
 
-num_generations = 20
-num_parents_mating = 100
+num_generations = 100
+num_parents_mating = 20
 initial_population = ga.population_weights
 
 ga_instance = pygad.GA(num_generations=num_generations,
@@ -53,10 +53,10 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         fitness_func=fitness_func,
                         on_generation=callback_generation,
                         parent_selection_type="rws",
-                        keep_parents=2,
-                        crossover_type="single_point",
+                        keep_parents=1,
+                        crossover_type="two_points",
                         crossover_probability=0.8,
-                        mutation_type="swap",
+                        mutation_type="random",
                         mutation_probability=0.1,
                         save_best_solutions=True)
 

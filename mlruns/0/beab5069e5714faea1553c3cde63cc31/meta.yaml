@@ -1,0 +1,15 @@
+artifact_uri: ./mlruns/0/beab5069e5714faea1553c3cde63cc31/artifacts
+end_time: 1653071187663
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: beab5069e5714faea1553c3cde63cc31
+run_uuid: beab5069e5714faea1553c3cde63cc31
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1653071187249
+status: 3
+tags: []
+user_id: Dino

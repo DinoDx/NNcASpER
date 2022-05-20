@@ -6,7 +6,7 @@ from tensorflow import keras
 from dataPreprocessing import dataPreprocessing
 import mlflow
 
-mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow_experiment_id = 0
 
 #Load model and weights
@@ -42,12 +42,12 @@ with mlflow.start_run(experiment_id=mlflow_experiment_id):
     print("Recall : ", recall)
     print("F-Measure : ", fmeasure) 
 
-    mlflow.log_param("n solutions", 100)
-    mlflow.log_param("n generations", 20)
-    mlflow.log_param("n elites", 2)
-    mlflow.log_param("crossover type", "single point")
+    mlflow.log_param("n solutions", 20)
+    mlflow.log_param("n generations", 100)
+    mlflow.log_param("n elites", 1)
+    mlflow.log_param("crossover type", "two points")
     mlflow.log_param("crossover prob", 0.8)
-    mlflow.log_param("mutation type", "swap")
+    mlflow.log_param("mutation type", "random")
     mlflow.log_param("mutation prob", 0.1)
 
     mlflow.log_metric("accuracy", accuracy)
