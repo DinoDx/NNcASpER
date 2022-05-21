@@ -54,9 +54,9 @@ ga_instance = pygad.GA(num_generations=num_generations,
                         on_generation=callback_generation,
                         parent_selection_type="rws",
                         keep_parents=1,
-                        crossover_type="two_points",
+                        crossover_type="uniform",
                         crossover_probability=0.8,
-                        mutation_type="random",
+                        mutation_type="scramble",
                         mutation_probability=0.1,
                         save_best_solutions=True)
 
