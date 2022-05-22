@@ -3,7 +3,6 @@
 #os.add_dll_directory("C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.6/bin")
 
 import imblearn
-import tensorflow as tf
 from tensorflow import keras as k
 import pygad
 import pygad.kerasga as kga
