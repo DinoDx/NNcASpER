@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import imblearn
 from sklearn import preprocessing
 from collections import Counter
 from matplotlib import pyplot
@@ -69,3 +68,10 @@ def dataPreprocessing(f, t):
     '''''
 
     return x_data, y_data
+
+def dataPreprocessing(metrics):
+        metrics = np.array(metrics)
+        scaler = preprocessing.MinMaxScaler(feature_range=(0,1))
+        x_data = scaler.fit_transform(metrics)
+        
+        return x_data
