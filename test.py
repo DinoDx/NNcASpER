@@ -44,10 +44,11 @@ with mlflow.start_run(experiment_id=mlflow_experiment_id):
 
     mlflow.log_param("n solutions", 20)
     mlflow.log_param("n generations", 100)
-    mlflow.log_param("n elites", 1)
+    mlflow.log_param("parent selection type", "sus")
+    mlflow.log_param("n elites", 2)
     mlflow.log_param("crossover type", "uniform")
     mlflow.log_param("crossover prob", 0.8)
-    mlflow.log_param("mutation type", "scramble")
+    mlflow.log_param("mutation type", "random")
     mlflow.log_param("mutation prob", 0.1)
 
     mlflow.log_metric("accuracy", accuracy)
