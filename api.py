@@ -1,3 +1,5 @@
+from ast import arg
+from ctypes import sizeof
 import re
 import flask
 import numpy as np
@@ -11,12 +13,18 @@ app.config["DEBUG"] = True
 
 def home():
     args = flask.request.args
-    metrics_arg = args.get('metrics')
+    if(len(args) != 1):
+        return "Error: 1 argument required," + str(len(args)) + "provided!"
+
+    metrics_arg = args.get('metrics',1)
+    if(metrics_arg == 1): 
+        return "Error: metrics argument required \"metrics=CBO,CYCLO,DIT,M_ELOC,FanIn,FanIn_1,LCOM,LOC,LOCNAMM,NOA,NOC,NOM,NOMNAMM,NOPA,PMMM,PRB,WLOCNAMM,WMC,WMCNAMM\""
+
     metrics = np.array([float(num) for num in re.findall(r'-?\d+\.?\d*', metrics_arg)])
     if(metrics.size != 19):
         return "Error: 19 float metrics required, " + str(metrics.size) + " provided!"
-    prediction = classify(metrics = metrics)
 
+    prediction = classify(metrics = metrics)
     toreturn = ""
     for pred in prediction:
         toreturn += str(pred) + ""
