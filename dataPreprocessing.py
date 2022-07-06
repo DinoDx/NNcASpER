@@ -23,7 +23,7 @@ def dataPreprocessing(f, t):
     scaler = preprocessing.MinMaxScaler(feature_range=(0,1))
     x_data = scaler.fit_transform(x_data)
 
-    # Data Balancing
+    # Data Balancing (spostato in traning.py)
     '''''
     y_labeled = []
 
