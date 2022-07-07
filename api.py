@@ -18,7 +18,7 @@ def home():
 
     metrics_arg = args.get('metrics',1)
     if(metrics_arg == 1): 
-        return "Error: metrics argument required \"metrics=CBO,CYCLO,DIT,M_ELOC,FanIn,FanIn_1,LCOM,LOC,LOCNAMM,NOA,NOC,NOM,NOMNAMM,NOPA,PMMM,PRB,WLOCNAMM,WMC,WMCNAMM\""
+        return "Error: metrics argument required \"metrics=CBO,CYCLO,DIT,ELOC,FanIn,FanIn_1,LCOM,LOC,LOCNAMM,NOA,NOC,NOM,NOMNAMM,NOPA,PMMM,PRB,WLOCNAMM,WMC,WMCNAMM\""
 
     metrics = np.array([float(num) for num in re.findall(r'-?\d+\.?\d*', metrics_arg)])
     if(metrics.size != 19):
